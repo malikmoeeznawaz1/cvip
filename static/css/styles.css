@@ -1,0 +1,77 @@
+/* CSS File - styles.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  overflow-x: hidden;
+}
+
+:root {
+  --bg-gradient: linear-gradient(135deg, #74ebd5, #acb6e5);
+  --text-color: #333;
+  --button-bg: #74ebd5;
+  --button-hover-bg: #4eb0d5;
+  --navbar-bg: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"] {
+  --bg-gradient: linear-gradient(135deg, #333, #111);
+  --text-color: #fff;
+  --button-bg: #444;
+  --button-hover-bg: #666;
+  --navbar-bg: rgba(20, 20, 20, 0.9);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--navbar-bg);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.theme-button {
+  background: var(--button-bg);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.theme-button:hover {
+  background: var(--button-hover-bg);
+}
+
+.container {
+  margin: 80px auto;
+  max-width: 1200px;
+  padding: 2rem;
+  background: #fff;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}

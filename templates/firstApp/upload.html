@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Upload</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .upload-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 2rem;
+        }
+
+        .upload-zone {
+            border: 2px dashed #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-zone:hover {
+            border-color: #3b82f6;
+            background: #f8fafc;
+        }
+
+        .upload-zone input[type="file"] {
+            display: none;
+        }
+
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            color: #64748b;
+        }
+
+        .upload-text {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .browse-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #3b82f6;
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .browse-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .results-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .results-card h2 {
+            color: #0f172a;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .data-table tr:hover td {
+            background: #f1f5f9;
+        }
+
+        .annotated-image {
+            margin-top: 2rem;
+        }
+
+        .annotated-image img {
+            width: 100%;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #64748b;
+            padding: 2rem;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+                margin: 2rem auto;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .upload-card,
+            .results-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Invoice Data Extraction</h1>
+        </div>
+
+        <div class="upload-card">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="upload-zone" onclick="document.getElementById('image').click()">
+                    <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    </svg>
+                    <p class="upload-text">Drag and drop your invoice here or</p>
+                    <span class="browse-btn">Browse Files</span>
+                    <input type="file" name="image" id="image" accept="image/*" required>
+                </div>
+                <button type="submit" class="submit-btn">Process Invoice</button>
+            </form>
+        </div>
+
+        {% if data %}
+        <div class="results-card">
+            <h2>Extracted Data</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th>Text</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in data %}
+                    <tr>
+                        <td>{{ item.label }}</td>
+                        <td>{{ item.text }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        {% if annotated_image_url %}
+        <div class="results-card annotated-image">
+            <h2>Annotated Invoice</h2>
+            <img src="{{ annotated_image_url }}" alt="Annotated Invoice">
+        </div>
+        {% endif %}
+
+        {% if not data and not annotated_image_url %}
+        <div class="results-card">
+            <div class="empty-state">
+                Upload an invoice to see the extracted data here.
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Update file input text when file is selected
+        document.getElementById('image').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name;
+            if (fileName) {
+                document.querySelector('.upload-text').textContent = `Selected: ${fileName}`;
+            }
+        });
+
+        // Handle drag and drop
+        const dropZone = document.querySelector('.upload-zone');
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#3b82f6';
+            dropZone.style.background = '#f8fafc';
+        });
+
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#e2e8f0';
+            dropZone.style.background = 'white';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            if (files.length) {
+                document.getElementById('image').files = files;
+                document.querySelector('.upload-text').textContent = `Selected: ${files[0].name}`;
+            }
+            dropZone.style.borderColor = '#e2e8f0';
+            dropZone.style.background = 'white';
+        });
+    </script>
+</body>
+</html>
